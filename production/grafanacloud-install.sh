@@ -75,18 +75,18 @@ main() {
   esac
 
   log '--- Retrieving config and placing in /etc/grafana-agent.yaml'
-  retrieve_config | sudo tee /etc/grafana-agent.yaml
+  retrieve_config | tee /etc/grafana-agent.yaml
 
   log '--- Enabling and starting grafana-agent.service'
-  sudo systemctl enable grafana-agent.service
-  sudo systemctl start grafana-agent.service
+  systemctl enable grafana-agent.service
+  systemctl start grafana-agent.service
 
   # Add some empty newlines to give some visual whitespace before printing the
   # success message.
   log ''
   log ''
   log 'Grafana Agent is now running! To check the status of your Agent, run:'
-  log '   sudo systemctl status grafana-agent.service'
+  log '   systemctl status grafana-agent.service'
 }
 
 # detect_package_system tries to detect the host distribution to determine if
@@ -109,13 +109,13 @@ detect_package_system() {
 # install_deb downloads and installs the deb package of the Grafana Agent.
 install_deb() {
   curl -fsL "${DEB_URL}" -o /tmp/grafana-agent.deb || fatal 'Failed to download package'
-  sudo dpkg -i /tmp/grafana-agent.deb
+  dpkg -i /tmp/grafana-agent.deb
   rm /tmp/grafana-agent.deb
 }
 
 # install_rpm downloads and installs the deb package of the Grafana Agent.
 install_rpm() {
-  sudo rpm --reinstall "${RPM_URL}"
+  rpm --reinstall "${RPM_URL}"
 }
 
 # retrieve_config downloads the config file for the Agent and prints out its
